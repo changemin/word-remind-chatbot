@@ -1,4 +1,4 @@
-import requests, sys
+import requests, sys, time
 from bs4 import BeautifulSoup
 
 while(True):
