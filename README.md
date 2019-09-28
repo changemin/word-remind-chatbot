@@ -4,6 +4,8 @@
     pip install bs4
     pip install beautifulsoup4
     pip install lxml
+    pip install json
+    pip install argparse
 
 ## 프로젝트를 시작하게 된 이유
 
