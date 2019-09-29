@@ -4,15 +4,14 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-m", help="migrate functions", action="store_true")
+#parser.add_argument("-m", help="migrate functions", action="store_true")
 args = parser.parse_args()
 
-if args.m:
-    print("here is argparser 'm'")
+# if args.m:
+#     print("here is argparser 'm'")
 
-with open('config.json') as json_file:
+with open('config.json') as json_file: # read config file
     data = json.load(json_file)
-
     wordFilePath = str(data['Path']['wordFile'])
 
 while(True):
@@ -20,7 +19,7 @@ while(True):
     date_time = now.strftime("%m-%d-%Y/%H:%M")
 
     word = input("단어를 입력하세요>")
-    if word == "@":
+    if word == "exit()":
         sys.exit()
 
     url = "http://endic.naver.com/search.nhn?query=" + word
@@ -28,12 +27,15 @@ while(True):
     soup = BeautifulSoup(response.content, "lxml")
 
     filePath = "res/word/words.txt"
-    f = open(filePath, "r", encoding="UTF-8")
-    # print(f.read())
+    f = open(filePath, "a+", encoding="UTF-8") # open file append mode
 
-    result = date_time + ", " + word + ", "
+    newWord = date_time + ", " + word + ", "
+    
     try:
-        result += soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text()
+        newWord += soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
+        f.write(newWord)
+        f.close()
     except:
-        result = "네이버 사전에 등재되어 있지 않습니다."
-    print(result)
+        newWord += "네이버 사전에 등재되어 있지 않아요 ㅠㅠ\n"
+
+    print(newWord)
