@@ -1,7 +1,7 @@
 {
     "DATASET": 
     {
-        
+        "interval":"1"
     },
     "Path":{
         "wordFile":"res/word/words.txt"

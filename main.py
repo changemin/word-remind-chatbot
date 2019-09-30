@@ -3,18 +3,28 @@ import sys, time, json, os, argparse
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-parser = argparse.ArgumentParser()
-#parser.add_argument("-m", help="migrate functions", action="store_true")
-args = parser.parse_args()
-
-# if args.m:
-#     print("here is argparser 'm'")
-
 with open('config.json') as json_file: # read config file
     data = json.load(json_file)
     wordFilePath = str(data['Path']['wordFile'])
+    dayInteval = int(data['DATASET']['interval'])
 
-while(True):
+parser = argparse.ArgumentParser() # args parser
+parser.add_argument("-show", help="how json file", action="store_true")
+parser.add_argument("-n", help="create new word space", action="store_true")
+parser.add_argument('FileName', action='store', type=str, help='The text to parse.')
+args = parser.parse_args()
+
+if args.show: # show config data
+    print("-------------------------------------\n")
+    print("WordFilePath : " + wordFilePath)
+    print("dayInterval : " + str(dayInteval) + "\n")
+    print("-------------------------------------")
+
+if args.n: # create new word space
+    newFilePath = "res/word/" + args.FileName + ".txt"
+    newFile = open(newFilePath, "a+", encoding="UTF-8")
+
+while(True): 
     now = datetime.now()
     date_time = now.strftime("%m-%d-%Y/%H:%M")
 
