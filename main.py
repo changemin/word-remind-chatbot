@@ -2,17 +2,19 @@ import requests
 import sys, time, json, os, argparse
 from bs4 import BeautifulSoup
 from datetime import datetime
+from os import listdir
 
 with open('config.json', 'r') as config: # read config file
     data = config.read()
     configData = json.loads(data)
     targetFile = configData['DATASET']['target']
-    filePath = configData['Words'][targetFile]['Path']
+    filePath = configData['WordSpaces'][targetFile]['Path']
     dayInterval = configData['DATASET']['interval']
 
 parser = argparse.ArgumentParser() # args parser
 parser.add_argument("-show", help="how json file", action="store_true")
 parser.add_argument("-n", help="create new word space", action="store_true")
+parser.add_argument("-l", help="list Word spaces", action="store_true")
 parser.add_argument("-checkout", help="change file to edit", action="store_true")
 
 args = parser.parse_args()
@@ -33,6 +35,12 @@ if args.n: # create new word space
     except:
         print("[LOG]" + newFilePath + "가 이미 존재 합니다.")
 
+    sys.exit()
+
+if args.l:
+    wordList = os.listdir('res/word')
+    for fileName in wordList:
+        print(fileName)
     sys.exit()
 
 if args.checkout:
