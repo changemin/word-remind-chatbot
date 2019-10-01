@@ -1,13 +1,13 @@
 {
-    "DATASET": 
-    {
-        "interval":1,
-        "target":"words.txt"
+    "DATASET": {
+        "interval": 1,
+        "target": "words.txt"
     },
-    "Words":{
-        "words.txt":{
-            "Path":"res/word/words.txt",
-            "WordCount":3
+    "WordSpaces": {
+        "words.txt": {
+            "CreateDay": "20190927",
+            "Path": "res/word/words.txt",
+            "WordCount": 3
         }
     }
 }

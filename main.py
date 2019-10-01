@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from os import listdir
 
-with open('config.json', 'r') as config: # read config file
+with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
     configData = json.loads(data)
     targetFile = configData['DATASET']['target']
@@ -12,10 +12,11 @@ with open('config.json', 'r') as config: # read config file
     dayInterval = configData['DATASET']['interval']
 
 parser = argparse.ArgumentParser() # args parser
-parser.add_argument("-show", help="how json file", action="store_true")
+parser.add_argument("-show", help="list config file-DATASET", action="store_true")
 parser.add_argument("-n", help="create new word space", action="store_true")
-parser.add_argument("-l", help="list Word spaces", action="store_true")
-parser.add_argument("-checkout", help="change file to edit", action="store_true")
+parser.add_argument("-l", help="list word spaces", action="store_true")
+parser.add_argument("-m", help="migrate config file", action="store_true")
+parser.add_argument("-checkout", help="change target file", action="store_true")
 
 args = parser.parse_args()
 
@@ -44,7 +45,12 @@ if args.l:
     sys.exit()
 
 if args.checkout:
-    print("checkout")
+    checkout = input("checkout>")
+    #print(data)
+    configData['DATASET']['target'] = checkout
+    print(configData['DATASET']['target'])
+    with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+        json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
     sys.exit()
     
 while(True): 
