@@ -16,6 +16,7 @@ parser.add_argument("-show", help="list config file-DATASET", action="store_true
 parser.add_argument("-n", help="create new word space", action="store_true")
 parser.add_argument("-l", help="list word spaces", action="store_true")
 parser.add_argument("-m", help="migrate config file", action="store_true")
+# parser.add_argument("-test", help="test args", action="store_true")
 parser.add_argument("-checkout", help="change target file", action="store_true")
 
 args = parser.parse_args()
@@ -45,12 +46,20 @@ if args.l:
     sys.exit()
 
 if args.checkout:
+    isExist = False
     checkout = input("checkout>")
-    #print(data)
-    configData['DATASET']['target'] = checkout
-    print(configData['DATASET']['target'])
-    with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-        json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+    for wordFile in os.listdir('res/word'):
+        # print(wordFile)
+        if(wordFile == checkout):
+            print("samesame")
+            configData['DATASET']['target'] = checkout
+            with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+                json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+                print("now your target : " + checkout)
+                isExist = True
+                exit()
+    if(isExist == False):
+        print("there is no such a file name : " + checkout)
     sys.exit()
     
 while(True): 
