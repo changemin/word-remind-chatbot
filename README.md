@@ -14,3 +14,9 @@
  더불어 내가 찾았던 단어를 정리해서 나와의 telegram(또는 facebook messenger)로 보내서 기록으로 남기고, 까먹지 않도록 해준다.
 
  오랫동안 데이터가 쌓이면 시험공부나 영어공부에도 도움이 되지 않을까 생각이 든다. 
+
+## 실행 Options
+
+    python main.py -n
+    python main.py -show
+    python main.py -checkout
