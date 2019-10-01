@@ -1,9 +1,13 @@
 {
     "DATASET": 
     {
-        "interval":"1"
+        "interval":1,
+        "target":"words.txt"
     },
-    "Path":{
-        "wordFile":"res/word/words.txt"
+    "Words":{
+        "words.txt":{
+            "Path":"res/word/words.txt",
+            "WordCount":3
+        }
     }
 }
