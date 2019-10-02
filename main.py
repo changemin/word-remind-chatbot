@@ -17,7 +17,7 @@ parser.add_argument("-n", help="create new word space", action="store_true")
 parser.add_argument("-l", help="list word spaces", action="store_true")
 parser.add_argument("-m", help="migrate config file", action="store_true")
 parser.add_argument("-rm", help="remove wordSpace",action="store_true")
-# parser.add_argument("-test", help="test args", action="store_true")
+parser.add_argument("-test", help="test args", action="store_true")
 parser.add_argument("-checkout", help="change target file", action="store_true")
 
 args = parser.parse_args()
@@ -39,6 +39,10 @@ if args.n: # create new word space
         now = datetime.now()
         createDate = now.strftime("%Y%m%d")
         newFile.write(createDate)
+        tmp = {newFileName:{"CreateDay":createDate[0:8],"Path":"res/word/"+newFileName,"wordCount":0}}
+        configData['WordSpaces'].update(tmp)
+        with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+            json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
     except:
         print("[LOG]" + newFilePath + "가 이미 존재 합니다.")
 
@@ -47,23 +51,26 @@ if args.n: # create new word space
 if args.rm:
     rmFile = input("지울 파일 이름을 입력하세요>")
     permission = input("'"+rmFile+"'을 정말 삭제 하시겠습니까?(y/n) ")
-    if( permission == 'y' or permission == 'Y'):
+    if(permission == 'y' or permission == 'Y'):
         for wordFile in os.listdir('res/word'):
             # print(wordFile)
             if(wordFile == rmFile):
                 # remove
                 try:
                     os.remove("res/word/" + rmFile)
+                    del configData['WordSpaces'][rmFile]
+                    with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+                        json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
                 except:
                     print("'"+rmFile+"'이 존재하지 않습니다.")
                     sys.exit()
                 print("'"+rmFile+"'를 제거하셨습니다.")
                 sys.exit()
-    elif( permission == 'n' or permission == 'N'):
-        print("'"+rmFile+"'제거를 취소하셨습니다.")
+    elif(permission == 'n' or permission == 'N'):
+        print("'" + rmFile + "'제거를 취소하셨습니다.")
         sys.exit()
     else:
-        print("잘못된 입력, "+permission)
+        print("잘못된 입력, " + permission)
     sys.exit()
 
 if args.l: # list wordspace
@@ -88,12 +95,14 @@ if args.checkout: # change target workspace
         print("there is no such a file name : " + checkout)
     sys.exit()
 
+if args.test:
+    sys.exit()
+
 if args.m:
     for wordFile in os.listdir('res/word'):
         wordFilePath = 'res/word/'+wordFile
         f = open(wordFilePath, 'r', encoding='UTF-8')
         createDay = f.readline()
-        # print(createDay[0:8])
         wordCount = 0
         for line in f:
             wordCount += 1
