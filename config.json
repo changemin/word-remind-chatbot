@@ -1,33 +1,13 @@
 {
     "DATASET": {
         "interval": 1,
-        "target": "hi.txt"
+        "target": "wejust.txt.txt"
     },
     "WordSpaces": {
-        "final.txt": {
-            "CreateDay": "20191002",
-            "Path": "res/word/final.txt",
-            "wordCount": 0
-        },
-        "hello.txt": {
-            "CreateDay": "20191002",
-            "Path": "res/word/hello.txt",
-            "wordCount": 0
-        },
         "hi.txt": {
             "CreateDay": "20191002",
             "Path": "res/word/hi.txt",
-            "wordCount": 10
-        },
-        "jjk.txt": {
-            "CreateDay": "20191002",
-            "Path": "res/word/jjk.txt",
-            "wordCount": 0
-        },
-        "test.txt": {
-            "CreateDay": "20191002",
-            "Path": "res/word/test.txt",
-            "wordCount": 0
+            "wordCount": 11
         },
         "words.txt": {
             "CreateDay": "20191002",
