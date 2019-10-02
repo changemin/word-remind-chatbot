@@ -8,7 +8,10 @@ with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
     configData = json.loads(data)
     targetFile = configData['DATASET']['target']
-    filePath = configData['WordSpaces'][targetFile]['Path']
+    try:
+        filePath = configData['WordSpaces'][targetFile]['Path']
+    except:
+        filePath = configData['WordSpaces']['words.txt']['Path']
     dayInterval = configData['DATASET']['interval']
 
 parser = argparse.ArgumentParser() # args parser
@@ -30,16 +33,16 @@ if args.show: # show config data
     sys.exit()
 
 if args.n: # create new word space
-    newFileName = input("새로운 파일의 이름을 입력하세요>")
+    newFileName = input("새로운 WordSpace의 이름을 입력하세요>")
     newFilePath = "res/word/" + newFileName + ".txt"
     try:
         newFile = open(newFilePath, "x", encoding="UTF-8")
         print("[LOG] '" + newFilePath + "' 가 생성되었습니다.")
         newFile = open(newFilePath, "w", encoding="UTF-8")
         now = datetime.now()
-        createDate = now.strftime("%Y%m%d")
+        createDate = now.strftime("%Y%m%d\n")
         newFile.write(createDate)
-        tmp = {newFileName:{"CreateDay":createDate[0:8],"Path":"res/word/"+newFileName,"wordCount":0}}
+        tmp = {newFileName+".txt":{"CreateDay":createDate[0:8],"Path":"res/word/"+newFileName,"wordCount":0}}
         configData['WordSpaces'].update(tmp)
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
@@ -49,7 +52,8 @@ if args.n: # create new word space
     sys.exit()
 
 if args.rm:
-    rmFile = input("지울 파일 이름을 입력하세요>")
+    rmFile = input("지울 WordSpace의 이름을 입력하세요>")
+    rmFile += ".txt"
     permission = input("'"+rmFile+"'을 정말 삭제 하시겠습니까?(y/n) ")
     if(permission == 'y' or permission == 'Y'):
         for wordFile in os.listdir('res/word'):
@@ -64,7 +68,7 @@ if args.rm:
                 except:
                     print("'"+rmFile+"'이 존재하지 않습니다.")
                     sys.exit()
-                print("'"+rmFile+"'를 제거하셨습니다.")
+                print("'"+rmFile+"'를 성공적으로 제거했습니다.")
                 sys.exit()
     elif(permission == 'n' or permission == 'N'):
         print("'" + rmFile + "'제거를 취소하셨습니다.")
@@ -126,7 +130,6 @@ while(True):
     url = "http://endic.naver.com/search.nhn?query=" + word
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "lxml")
-
     
     f = open(filePath, "a+", encoding="UTF-8") # open file append mode
 
