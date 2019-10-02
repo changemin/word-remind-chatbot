@@ -1,7 +1,7 @@
 {
     "DATASET": {
         "interval": 1,
-        "target": "수능영어.txt"
+        "target": "hi.txt"
     },
     "WordSpaces": {
         "final.txt": {
@@ -17,7 +17,7 @@
         "hi.txt": {
             "CreateDay": "20191002",
             "Path": "res/word/hi.txt",
-            "wordCount": 0
+            "wordCount": 10
         },
         "jjk.txt": {
             "CreateDay": "20191002",

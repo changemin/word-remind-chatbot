@@ -34,6 +34,10 @@ if args.n: # create new word space
     try:
         newFile = open(newFilePath, "x", encoding="UTF-8")
         print("[LOG] '" + newFilePath + "' 가 생성되었습니다.")
+        newFile = open(newFilePath, "w", encoding="UTF-8")
+        now = datetime.now()
+        createDate = now.strftime("%Y%m%d")
+        newFile.write(createDate)
     except:
         print("[LOG]" + newFilePath + "가 이미 존재 합니다.")
 
@@ -80,9 +84,9 @@ if args.m:
 while(True): 
     configData = json.loads(data) # load json file
     now = datetime.now()
-    date_time = now.strftime("%Y-%d-%m/%H:%M")
+    date_time = now.strftime("%Y-%m-%d/%H:%M")
 
-    word = input("단어를 입력하세요>")
+    word = input("단어를 입력하세요(현재:"+configData['DATASET']['target']+')>')
 
     if word == "exit()": # interrupt
         sys.exit()
@@ -103,4 +107,4 @@ while(True):
     except:
         newWord += "네이버 사전에 등재되어 있지 않아요 ㅠㅠ\n"
 
-    print(newWord)
+    print(newWord[0:-1])
