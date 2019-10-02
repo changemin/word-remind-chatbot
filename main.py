@@ -1,8 +1,9 @@
 import requests
-import sys, time, json, os, argparse
+import sys, time, json, os, argparse, random, re
 from bs4 import BeautifulSoup
 from datetime import datetime
 from os import listdir
+from PIL import Image, ImageDraw, ImageFont
 
 with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
@@ -20,6 +21,7 @@ parser.add_argument("-n", help="create new word space", action="store_true")
 parser.add_argument("-l", help="list word spaces", action="store_true")
 parser.add_argument("-m", help="migrate config file", action="store_true")
 parser.add_argument("-rm", help="remove wordSpace",action="store_true")
+parser.add_argument("-make", help="make words to Image",action="store_true")
 parser.add_argument("-test", help="test args", action="store_true")
 parser.add_argument("-checkout", help="change target file", action="store_true")
 
@@ -35,14 +37,20 @@ if args.show: # show config data
 if args.n: # create new word space
     newFileName = input("새로운 WordSpace의 이름을 입력하세요>")
     newFilePath = "res/word/" + newFileName + ".txt"
+    # os.mkdir("res/result/", newFileName)
     try:
+        try:
+            os.mkdir("res/result/"+newFileName)
+            print("'res/result/"+newFileName+"'을 생성하였습니다.")
+        except:
+            print("'res/result/"+newFileName+"'이 이미 존재합니다.(파일 생성 실패)")
         newFile = open(newFilePath, "x", encoding="UTF-8")
         print("[LOG] '" + newFilePath + "' 가 생성되었습니다.")
         newFile = open(newFilePath, "w", encoding="UTF-8")
         now = datetime.now()
         createDate = now.strftime("%Y%m%d\n")
         newFile.write(createDate)
-        tmp = {newFileName+".txt":{"CreateDay":createDate[0:8],"Path":"res/word/"+newFileName,"wordCount":0}}
+        tmp = {newFileName+".txt":{"CreateDay":createDate[0:8],"Path":newFilePath,"resultPath":"res/word/"+newFileName, "wordCount":0}}
         configData['WordSpaces'].update(tmp)
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
@@ -52,26 +60,31 @@ if args.n: # create new word space
     sys.exit()
 
 if args.rm:
-    rmFile = input("지울 WordSpace의 이름을 입력하세요>")
-    rmFile += ".txt"
-    permission = input("'"+rmFile+"'을 정말 삭제 하시겠습니까?(y/n) ")
+    rmFileName = input("지울 WordSpace의 이름을 입력하세요>")
+    rmFileName += ".txt"
+    permission = input("'"+rmFileName+"'을 정말 삭제 하시겠습니까?(y/n) ")
     if(permission == 'y' or permission == 'Y'):
         for wordFile in os.listdir('res/word'):
             # print(wordFile)
-            if(wordFile == rmFile):
+            if(wordFile == rmFileName):
                 # remove
                 try:
-                    os.remove("res/word/" + rmFile)
-                    del configData['WordSpaces'][rmFile]
+                    os.remove("res/word/" + rmFileName)
+                    del configData['WordSpaces'][rmFileName]
                     with open('config.json', 'w', encoding='UTF-8') as config: # read config file
                         json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+                    try: # rmdir
+                        os.rmdir("res/result/"+rmFileName[0:-3])
+                        print("'res/result/"+rmFileName[0:-3]+"'를 성공적으로 제거했습니다.")
+                    except:
+                        print("'res/result/"+rmFileName[0:-3]+"'제거에 실패하였습니다.")
                 except:
-                    print("'"+rmFile+"'이 존재하지 않습니다.")
+                    print("'"+rmFileName+"'이 존재하지 않습니다.")
                     sys.exit()
-                print("'"+rmFile+"'를 성공적으로 제거했습니다.")
+                print("'"+rmFileName+"'를 성공적으로 제거했습니다.")
                 sys.exit()
     elif(permission == 'n' or permission == 'N'):
-        print("'" + rmFile + "'제거를 취소하셨습니다.")
+        print("'" + rmFileName + "'제거를 취소하셨습니다.")
         sys.exit()
     else:
         print("잘못된 입력, " + permission)
@@ -85,7 +98,8 @@ if args.l: # list wordspace
 
 if args.checkout: # change target workspace
     isExist = False
-    checkout = input("checkout>")
+    checkout = input("이동할 WordSpace의 이름을 입력하세요>")
+    checkout += ".txt"
     for wordFile in os.listdir('res/word'):
         # print(wordFile)
         if(wordFile == checkout):
@@ -102,6 +116,11 @@ if args.checkout: # change target workspace
 if args.test:
     sys.exit()
 
+if args.make:
+    for word in range(len(configData['WordSpaces'])):
+        print(configData['WordSpaces'][word])
+    sys.exit()
+
 if args.m:
     for wordFile in os.listdir('res/word'):
         wordFilePath = 'res/word/'+wordFile
@@ -110,36 +129,39 @@ if args.m:
         wordCount = 0
         for line in f:
             wordCount += 1
-        tmp = {wordFile:{"CreateDay":createDay[0:8],"Path":"res/word/"+wordFile,"wordCount":wordCount}}
+        tmp = {wordFile:{"CreateDay":createDay[0:8],"Path":wordFilePath,"resultPath":"res/result/"+wordFile[0:-4],"wordCount":wordCount}}
         configData['WordSpaces'].update(tmp)
         print("Word space update : " + wordFile)
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
     sys.exit()
-    
-while(True): 
-    configData = json.loads(data) # load json file
-    now = datetime.now()
-    date_time = now.strftime("%Y-%m-%d/%H:%M")
 
-    word = input("단어를 입력하세요(현재:"+configData['DATASET']['target']+')>')
+if __name__ == "__main__":
+    while(True): 
+        configData = json.loads(data) # load json file
+        now = datetime.now()
+        date_time = now.strftime("%Y-%m-%d/%H:%M")
+        targetFileName = configData['DATASET']['target']
+        word = input("단어를 입력하세요(현재:"+targetFileName+')>')
 
-    if word == "exit()": # interrupt
-        sys.exit()
+        if word == "exit()": # interrupt
+            sys.exit()
 
-    url = "http://endic.naver.com/search.nhn?query=" + word
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, "lxml")
-    
-    f = open(filePath, "a+", encoding="UTF-8") # open file append mode
+        url = "http://endic.naver.com/search.nhn?query=" + word
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "lxml")
+        
+        f = open(filePath, "a+", encoding="UTF-8") # open file append mode
 
-    newWord = date_time + ", " + word + ", "
-    
-    try:
-        newWord += soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
-        f.write(newWord)
-        f.close()
-    except:
-        newWord += "네이버 사전에 등재되어 있지 않아요 ㅠㅠ\n"
-
-    print(newWord[0:-1])
+        newWord = date_time + ", " + word + ", "
+        
+        try:
+            newWord += soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
+            configData['WordSpaces'][targetFileName]['wordCount'] += 1
+            with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+                json.dump(configData, config, ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+            f.write(newWord)
+            f.close()
+        except:
+            newWord += "네이버 사전에 등재되어 있지 않아요 ㅠㅠ\n"
+        print(newWord[0:-1])
