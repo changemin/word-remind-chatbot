@@ -39,19 +39,18 @@ if args.n: # create new word space
 
     sys.exit()
 
-if args.l:
+if args.l: # list wordspace
     wordList = os.listdir('res/word')
     for fileName in wordList:
         print(fileName)
     sys.exit()
 
-if args.checkout:
+if args.checkout: # change target workspace
     isExist = False
     checkout = input("checkout>")
     for wordFile in os.listdir('res/word'):
         # print(wordFile)
         if(wordFile == checkout):
-            print("samesame")
             configData['DATASET']['target'] = checkout
             with open('config.json', 'w', encoding='UTF-8') as config: # read config file
                 json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
@@ -61,11 +60,27 @@ if args.checkout:
     if(isExist == False):
         print("there is no such a file name : " + checkout)
     sys.exit()
+
+if args.m:
+    for wordFile in os.listdir('res/word'):
+        wordFilePath = 'res/word/'+wordFile
+        f = open(wordFilePath, 'r', encoding='UTF-8')
+        createDay = f.readline()
+        # print(createDay[0:8])
+        wordCount = 0
+        for line in f:
+            wordCount += 1
+        tmp = {wordFile:{"CreateDay":createDay[0:8],"Path":"res/word/"+wordFile,"wordCount":wordCount}}
+        configData['WordSpaces'].update(tmp)
+        print("Word space update : " + wordFile)
+        with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+            json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+    sys.exit()
     
 while(True): 
     configData = json.loads(data) # load json file
     now = datetime.now()
-    date_time = now.strftime("%m-%d-%Y/%H:%M")
+    date_time = now.strftime("%Y-%d-%m/%H:%M")
 
     word = input("단어를 입력하세요>")
 

@@ -1,13 +1,43 @@
 {
     "DATASET": {
         "interval": 1,
-        "target": "words.txt"
+        "target": "수능영어.txt"
     },
     "WordSpaces": {
+        "final.txt": {
+            "CreateDay": "20191002",
+            "Path": "res/word/final.txt",
+            "wordCount": 0
+        },
+        "hello.txt": {
+            "CreateDay": "20191002",
+            "Path": "res/word/hello.txt",
+            "wordCount": 0
+        },
+        "hi.txt": {
+            "CreateDay": "20191002",
+            "Path": "res/word/hi.txt",
+            "wordCount": 0
+        },
+        "jjk.txt": {
+            "CreateDay": "20191002",
+            "Path": "res/word/jjk.txt",
+            "wordCount": 0
+        },
+        "test.txt": {
+            "CreateDay": "20191002",
+            "Path": "res/word/test.txt",
+            "wordCount": 0
+        },
         "words.txt": {
-            "CreateDay": "20190927",
+            "CreateDay": "20191002",
             "Path": "res/word/words.txt",
-            "WordCount": 3
+            "wordCount": 16
+        },
+        "수능영어.txt": {
+            "CreateDay": "20191002",
+            "Path": "res/word/수능영어.txt",
+            "wordCount": 9
         }
     }
 }
