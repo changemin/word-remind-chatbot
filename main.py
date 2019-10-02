@@ -16,6 +16,7 @@ parser.add_argument("-show", help="list config file-DATASET", action="store_true
 parser.add_argument("-n", help="create new word space", action="store_true")
 parser.add_argument("-l", help="list word spaces", action="store_true")
 parser.add_argument("-m", help="migrate config file", action="store_true")
+parser.add_argument("-rm", help="remove wordSpace",action="store_true")
 # parser.add_argument("-test", help="test args", action="store_true")
 parser.add_argument("-checkout", help="change target file", action="store_true")
 
@@ -41,6 +42,28 @@ if args.n: # create new word space
     except:
         print("[LOG]" + newFilePath + "가 이미 존재 합니다.")
 
+    sys.exit()
+
+if args.rm:
+    rmFile = input("지울 파일 이름을 입력하세요>")
+    permission = input("'"+rmFile+"'을 정말 삭제 하시겠습니까?(y/n) ")
+    if( permission == 'y' or permission == 'Y'):
+        for wordFile in os.listdir('res/word'):
+            # print(wordFile)
+            if(wordFile == rmFile):
+                # remove
+                try:
+                    os.remove("res/word/" + rmFile)
+                except:
+                    print("'"+rmFile+"'이 존재하지 않습니다.")
+                    sys.exit()
+                print("'"+rmFile+"'를 제거하셨습니다.")
+                sys.exit()
+    elif( permission == 'n' or permission == 'N'):
+        print("'"+rmFile+"'제거를 취소하셨습니다.")
+        sys.exit()
+    else:
+        print("잘못된 입력, "+permission)
     sys.exit()
 
 if args.l: # list wordspace
