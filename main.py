@@ -138,7 +138,9 @@ if args.m:
 
 if __name__ == "__main__":
     while(True): 
-        configData = json.loads(data) # load json file
+        with open('config.json', 'r', encoding='UTF-8') as config: # read config file
+            data = config.read()
+            configData = json.loads(data) # load json file
         now = datetime.now()
         date_time = now.strftime("%Y-%m-%d/%H:%M")
         targetFileName = configData['DATASET']['target']
