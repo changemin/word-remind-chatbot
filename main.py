@@ -117,8 +117,18 @@ if args.test:
     sys.exit()
 
 if args.make:
-    for word in range(len(configData['WordSpaces'])):
-        print(configData['WordSpaces'][word])
+    wordSpace = open(configData['WordSpaces'][targetFile]['Path'],'r',encoding='UTF-8')
+    print(wordSpace.readline())
+    wordCount = configData['WordSpaces'][targetFile]['wordCount']
+    for word in range(wordCount):
+        word = wordSpace.readline()
+        # print(word)
+        wordData = word.split(',')
+        word = wordData[1]
+        meaning = wordData[2:]
+        # print(wordData)
+        print(word)
+        print(meaning)
     sys.exit()
 
 if args.m:
