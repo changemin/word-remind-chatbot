@@ -1,23 +1,23 @@
 {
+    "Bot": {
+        "token": "842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA"
+    },
     "DATASET": {
         "interval": 1,
-        "target": "wejust.txt.txt"
+        "target": "anaconda.txt"
     },
     "WordSpaces": {
-        "hi.txt": {
-            "CreateDay": "20191002",
-            "Path": "res/word/hi.txt",
-            "wordCount": 11
+        "20191003.txt": {
+            "CreateDay": "20191003",
+            "Path": "res/word/20191003.txt",
+            "resultPath": "res/result/20191003",
+            "wordCount": 19
         },
-        "words.txt": {
-            "CreateDay": "20191002",
-            "Path": "res/word/words.txt",
+        "anaconda.txt": {
+            "CreateDay": "20191004",
+            "Path": "res/word/anaconda.txt",
+            "resultPath": "res/result/anaconda",
             "wordCount": 16
-        },
-        "수능영어.txt": {
-            "CreateDay": "20191002",
-            "Path": "res/word/수능영어.txt",
-            "wordCount": 9
         }
     }
 }

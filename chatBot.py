@@ -1,26 +1,37 @@
-import telegram,json
-from telegram.ext import  Updater, CommandHandler
-import sys
-import chatBotModel
+import telepot, time, os
+import requests
+from bs4 import BeautifulSoup
 
-def proc_rolling(bot, update):
-    wise.sendMessage('데구르르..')
-    sound = firecracker()
-    wise.sendMessage(sound)
-    wise.sendMessage('르르..')
+token = '842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA'
+userId = '698241176'
+bot = telepot.Bot(token)
 
-def proc_hello(bot, update):
-    wise.sendMessage('안녕하세요! 저는 와이즈입니다.\n당신의 단어 찾기를 도와드릴거에요!')
+bot.sendMessage(userId, "안녕하세요 저는 와이즈 입니다!")
 
-def proc_stop(bot, update):
-    wise.sendMessage('와이즈가 잠듭니다.')
-    wise.stop()
+status = True
 
-def firecracker():
-    return '팡팡!'
+def findWord(word):
+    url = "http://endic.naver.com/search.nhn?query=" + word
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "lxml")
+    meaning = soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
 
-wise = chatBotModel.Wise()
-wise.add_handler('rolling', proc_rolling)
-wise.add_handler('stop', proc_stop)
-wise.add_handler('hello', proc_hello)
-wise.start()
+    return meaning
+
+def handle(msg):
+    content, chat, id = telepot.glance(msg)
+    print(content, chat, id)
+    if content == 'text':
+        word = content
+        newWord = findWord(word)  
+        print(findWord(word))
+        bot.sendMessage(id, findWord(word))
+        # if msg['text'] == 'word':
+        #     bot.sendMessage(id, '오 단어를 찾고 싶으시군요')
+    else:
+        bot.sendMessage(id, '아 뭐래')
+
+bot.message_loop(handle)
+
+while(True):
+    time.sleep(10)

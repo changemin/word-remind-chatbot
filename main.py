@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from os import listdir
 from PIL import Image, ImageDraw, ImageFont
+import telepot
 
 with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()

@@ -6,6 +6,8 @@
     pip install lxml
     pip install json
     pip install argparse
+    pip install Pillow
+    pip install telepot
 
 ## 파일 구조
 
@@ -31,3 +33,5 @@
     python main.py -show
     python main.py -l
     python main.py -checkout
+    python main.py -rm
+    python main.py -m
