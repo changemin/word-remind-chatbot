@@ -14,20 +14,25 @@ def findWord(word2find):
     url = "http://endic.naver.com/search.nhn?query=" + word2find
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "lxml")
-    meaning = soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
-
-    return meaning
+    try:
+        meaning = soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
+        return meaning
+    except:
+        return '그런 단어는 없습니다 ㅠㅠ'
 
 def handle(msg):
     content, chat, id = telepot.glance(msg)
     print(content, chat, id)
     if content == 'text':
+        if msg[content] == '/migrate':
+            print('migrate')
+            bot.sendMessage(id, 'migrate fuction activated')
+            # migrate
+            exit()
         word = msg[content]
         wordMeaing = findWord(word)  
         print(wordMeaing)
         bot.sendMessage(id, findWord(word))
-        # if msg['text'] == 'word':
-        #     bot.sendMessage(id, '오 단어를 찾고 싶으시군요')
     else:
         bot.sendMessage(id, '아 뭐래')
 
