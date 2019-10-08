@@ -1,10 +1,19 @@
 {
     "Bot": {
-        "token": "842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA"
+        "token": "842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA",
+        "userID":{
+
+        }
     },
     "DATASET": {
         "interval": 1,
-        "target": "anaconda.txt"
+        "target": "anaconda.txt",
+        "colors":{
+            "1":[255,182,185],
+            "2":[250,227,217],
+            "3":[187,222,214],
+            "4":[138,198,209]
+        }
     },
     "WordSpaces": {
         "20191003.txt": {
