@@ -1,8 +1,13 @@
-import telepot, time, os
+import telepot, time, os, json
 import requests
 from bs4 import BeautifulSoup
 
-token = '842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA'
+with open('config.json', 'r', encoding='UTF-8') as config: # read config file
+    data = config.read()
+    configData = json.loads(data)
+    token = configData['Bot']['token']
+
+# token = '842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA'
 userId = '698241176'
 bot = telepot.Bot(token)
 
