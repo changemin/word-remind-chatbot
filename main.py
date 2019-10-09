@@ -10,6 +10,11 @@ with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
     configData = json.loads(data)
     targetFile = configData['DATASET']['target']
+    fontPathKO = configData['DATASET']['fontPathKO']
+    fontPathEN = configData['DATASET']['fontPathEN']
+    #for x in range(3):
+    BGColors = [configData['DATASET']['colors']['1'],configData['DATASET']['colors']['2'],configData['DATASET']['colors']['3'],configData['DATASET']['colors']['4']]
+        # print(configData['DATASET']['colors'][str(x+1)])
     try:
         filePath = configData['WordSpaces'][targetFile]['Path']
     except:
@@ -36,7 +41,7 @@ if args.show: # show config data
     sys.exit()
 
 if args.n: # create new word space
-    newFileName = input("새로운 WordSpace의 이름을 입력하세요>")
+    newFileName = input("새로운 WordSpace의 이름을 aa입력하세요>")
     newFilePath = "res/word/" + newFileName + ".txt"
     # os.mkdir("res/result/", newFileName)
     try:
@@ -115,10 +120,14 @@ if args.checkout: # change target workspace
     sys.exit()
 
 if args.test:
+    print(BGColors)
+    # for x in range(1):
+    #     print(BGColors)
     sys.exit()
 
 if args.make:
     wordSpace = open(configData['WordSpaces'][targetFile]['Path'],'r',encoding='UTF-8')
+    resultPath = configData['WordSpaces'][targetFile]['resultPath']
     print(wordSpace.readline())
     wordCount = configData['WordSpaces'][targetFile]['wordCount']
     for word in range(wordCount):
@@ -126,10 +135,14 @@ if args.make:
         # print(word)
         wordData = word.split(',')
         word = wordData[1]
-        meaning = wordData[2:]
+        meaning = wordData[2]
         # print(wordData)
         print(word)
         print(meaning)
+        BGrandom = random.randrange(1,4)
+        wordCard = Image.new(mode = "RGB", size = (200, 400), color=(BGColors[BGrandom][0],BGColors[BGrandom][1],BGColors[BGrandom][2]))
+        # wordCard.text((50,50), word, font=fontPathKO, fill=(255,0,0))
+        wordCard.save(resultPath+'/'+word+'.png')
     sys.exit()
 
 if args.m:
