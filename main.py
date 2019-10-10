@@ -12,6 +12,8 @@ with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     targetFile = configData['DATASET']['target']
     fontPathKO = configData['DATASET']['fontPathKO']
     fontPathEN = configData['DATASET']['fontPathEN']
+    cardWidth = configData['DATASET']['cardWidth']
+    cardHeight = configData['DATASET']['cardHeight']
     #for x in range(3):
     BGColors = [configData['DATASET']['colors']['1'],configData['DATASET']['colors']['2'],configData['DATASET']['colors']['3'],configData['DATASET']['colors']['4']]
         # print(configData['DATASET']['colors'][str(x+1)])
@@ -56,7 +58,7 @@ if args.n: # create new word space
         now = datetime.now()
         createDate = now.strftime("%Y%m%d\n")
         newFile.write(createDate)
-        tmp = {newFileName+".txt":{"CreateDay":createDate[0:8],"Path":newFilePath,"resultPath":"res/word/"+newFileName, "wordCount":0}}
+        tmp = {newFileName+".txt":{"CreateDay":createDate[0:8],"Path":newFilePath,"resultPath":"res/result/"+newFileName, "wordCount":0}}
         configData['WordSpaces'].update(tmp)
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
@@ -128,6 +130,8 @@ if args.test:
 if args.make:
     wordSpace = open(configData['WordSpaces'][targetFile]['Path'],'r',encoding='UTF-8')
     resultPath = configData['WordSpaces'][targetFile]['resultPath']
+    wordFont = ImageFont.truetype(fontPathKO, 50)
+    meaningFont = ImageFont.truetype(fontPathKO, 20)
     print(wordSpace.readline())
     wordCount = configData['WordSpaces'][targetFile]['wordCount']
     for word in range(wordCount):
@@ -140,8 +144,11 @@ if args.make:
         print(word)
         print(meaning)
         BGrandom = random.randrange(1,4)
-        wordCard = Image.new(mode = "RGB", size = (200, 400), color=(BGColors[BGrandom][0],BGColors[BGrandom][1],BGColors[BGrandom][2]))
-        # wordCard.text((50,50), word, font=fontPathKO, fill=(255,0,0))
+        wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=(BGColors[BGrandom][0],BGColors[BGrandom][1],BGColors[BGrandom][2]))
+        drawingLayer = ImageDraw.Draw(wordCard)
+        drawingLayer.text((30,30), word, font=wordFont, fill = (0,0,0))
+        drawingLayer.text((40,100), meaning, font=meaningFont, fill=(0,0,0))
+        # drawingLayer.text((50,50), str(word), font=fontPathKO, fill=(255,0,0))
         wordCard.save(resultPath+'/'+word+'.png')
     sys.exit()
 
