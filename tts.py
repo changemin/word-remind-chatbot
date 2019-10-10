@@ -4,8 +4,8 @@ import json
 with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
     configData = json.loads(data)
-    voiceID_KO = configData['DATASET']['TTS']['voiceID_KO']
-    voiceID_EN = configData['DATASET']['TTS']['voiceID_EN']
+    voiceID_KO = configData['TTS']['voiceID_KO']
+    voiceID_EN = configData['TTS']['voiceID_EN']
 
 engine = pyttsx3.init()
 
