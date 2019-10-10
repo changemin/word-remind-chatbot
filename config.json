@@ -34,8 +34,8 @@
         "userID": {}
     },
     "TTS":{
-        "voiceID_KO":"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_KO-KR_HEAMI_11.0",
-        "voiceID_EN":"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0"
+        "voiceID_KO":"HKEY_LOCAL_MACHINE\/SOFTWARE\/Microsoft\/Speech\/Voices\/Tokens\/TTS_MS_KO-KR_HEAMI_11.0",
+        "voiceID_EN":"HKEY_LOCAL_MACHINE\/SOFTWARE\/Microsoft\/Speech\/Voices\/Tokens\/TTS_MS_EN-US_ZIRA_11.0"
     },
     "WordSpaces": {
         "20191003.txt": {
