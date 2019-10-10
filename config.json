@@ -1,8 +1,4 @@
 {
-    "Bot": {
-        "token": "842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA",
-        "userID": {}
-    },
     "DATASET": {
         "cardHeight": 200,
         "cardWidth": 320,
@@ -32,6 +28,14 @@
         "fontPathKO": "res/fonts/a시나리오.ttf",
         "interval": 1,
         "target": "노래가사.txt"
+    },
+    "Bot": {
+        "token": "842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA",
+        "userID": {}
+    },
+    "TTS":{
+        "voiceID_KO":"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_KO-KR_HEAMI_11.0",
+        "voiceID_EN":"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0"
     },
     "WordSpaces": {
         "20191003.txt": {
