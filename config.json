@@ -1,32 +1,56 @@
 {
     "Bot": {
         "token": "842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA",
-        "userID":{
-
-        }
+        "userID": {}
     },
     "DATASET": {
+        "cardHeight": 200,
+        "cardWidth": 320,
+        "colors": {
+            "1": [
+                255,
+                182,
+                185
+            ],
+            "2": [
+                250,
+                227,
+                217
+            ],
+            "3": [
+                187,
+                222,
+                214
+            ],
+            "4": [
+                138,
+                198,
+                209
+            ]
+        },
+        "fontPathEN": "res/fonts/a시나리오.ttf",
+        "fontPathKO": "res/fonts/a시나리오.ttf",
         "interval": 1,
-        "target": "anaconda.txt",
-        "colors":{
-            "1":[255,182,185],
-            "2":[250,227,217],
-            "3":[187,222,214],
-            "4":[138,198,209]
-        }
+        "target": "노래가사.txt"
     },
     "WordSpaces": {
         "20191003.txt": {
             "CreateDay": "20191003",
             "Path": "res/word/20191003.txt",
             "resultPath": "res/result/20191003",
-            "wordCount": 19
+            "wordCount": 23
         },
         "anaconda.txt": {
             "CreateDay": "20191004",
             "Path": "res/word/anaconda.txt",
             "resultPath": "res/result/anaconda",
-            "wordCount": 16
+            "wordCount": 20
+        },
+        "노래가사.txt": {
+            "CreateDay": "20191010",
+            "Path": "res/word/노래가사.txt",
+            "resultPath": "res/result/노래가사",
+            "wordCount": 4
         }
     }
 }
