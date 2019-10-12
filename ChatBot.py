@@ -14,7 +14,7 @@ bot.sendMessage(userId, "안녕하세요 저는 와이즈 입니다!")
 
 status = True
 
-def findWord(word2find):
+def isMeaning(word2find):
     url = "http://endic.naver.com/search.nhn?query=" + word2find
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "lxml")
@@ -34,9 +34,9 @@ def handle(msg):
             # migrate
             exit()
         word = msg[content]
-        wordMeaing = findWord(word)  
+        wordMeaing = isMeaning(word)  
         print(wordMeaing)
-        bot.sendMessage(id, findWord(word))
+        bot.sendMessage(id, isMeaning(word))
     else:
         bot.sendMessage(id, '아 뭐래')
 

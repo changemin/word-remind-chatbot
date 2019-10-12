@@ -1,4 +1,9 @@
 {
+    "Bot": {
+        "name": "YOTR BOT NAME HERE",
+        "token": "YOUR BOT TOKEN HERE",
+        "userID": {}
+    },
     "DATASET": {
         "cardHeight": 200,
         "cardWidth": 320,
@@ -27,7 +32,7 @@
         "fontPathEN": "res/fonts/a시나리오.ttf",
         "fontPathKO": "res/fonts/a시나리오.ttf",
         "interval": 1,
-        "target": "anaconda.txt"
+        "target": "programming.txt"
     },
     "TTS": {
         "voiceID_EN": "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Speech/Voices/Tokens/TTS_MS_EN-US_ZIRA_11.0",
@@ -45,6 +50,12 @@
             "Path": "res/word/anaconda.txt",
             "resultPath": "res/result/anaconda",
             "wordCount": 20
+        },
+        "bot.txt": {
+            "CreateDay": "20191012",
+            "Path": "res/word/bot.txt",
+            "resultPath": "res/result/bot",
+            "wordCount": 3
         },
         "노래가사.txt": {
             "CreateDay": "20191010",
