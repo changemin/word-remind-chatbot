@@ -8,6 +8,7 @@
     pip install argparse
     pip install Pillow
     pip install telepot
+    pip install gTTS
 
 ## 파일 구조
 
@@ -15,6 +16,7 @@
     * background-imgs
     * result
     * word
+    * fonts
 * config.json
 * main.py
 * README.md

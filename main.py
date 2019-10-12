@@ -5,6 +5,8 @@ from datetime import datetime
 from os import listdir
 from PIL import Image, ImageDraw, ImageFont
 import telepot
+import pyttsx3
+import Models
 
 with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
@@ -130,8 +132,9 @@ if args.test:
 if args.make:
     wordSpace = open(configData['WordSpaces'][targetFile]['Path'],'r',encoding='UTF-8')
     resultPath = configData['WordSpaces'][targetFile]['resultPath']
-    wordFont = ImageFont.truetype(fontPathKO, 50)
+    wordFont = ImageFont.truetype(fontPathKO, 70)
     meaningFont = ImageFont.truetype(fontPathKO, 20)
+    wordSpaceFont = ImageFont.truetype(fontPathKO, 15)
     print(wordSpace.readline())
     wordCount = configData['WordSpaces'][targetFile]['wordCount']
     for word in range(wordCount):
@@ -144,10 +147,12 @@ if args.make:
         print(word)
         print(meaning)
         BGrandom = random.randrange(1,4)
-        wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=(BGColors[BGrandom][0],BGColors[BGrandom][1],BGColors[BGrandom][2]))
+        # wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=(BGColors[BGrandom][0],BGColors[BGrandom][1],BGColors[BGrandom][2]))
+        wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255)))
         drawingLayer = ImageDraw.Draw(wordCard)
-        drawingLayer.text((30,30), word, font=wordFont, fill = (0,0,0))
-        drawingLayer.text((40,100), meaning, font=meaningFont, fill=(0,0,0))
+        drawingLayer.text((30, 30), targetFile, font=wordSpaceFont, fill=(0,0,0))
+        drawingLayer.text((30,60), word, font=wordFont, fill = (0,0,0))
+        drawingLayer.text((50,140), meaning, font=meaningFont, fill=(0,0,0))
         # drawingLayer.text((50,50), str(word), font=fontPathKO, fill=(255,0,0))
         wordCard.save(resultPath+'/'+word+'.png')
     sys.exit()

@@ -27,15 +27,11 @@
         "fontPathEN": "res/fonts/a시나리오.ttf",
         "fontPathKO": "res/fonts/a시나리오.ttf",
         "interval": 1,
-        "target": "노래가사.txt"
+        "target": "anaconda.txt"
     },
-    "Bot": {
-        "token": "842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA",
-        "userID": {}
-    },
-    "TTS":{
-        "voiceID_KO":"HKEY_LOCAL_MACHINE\/SOFTWARE\/Microsoft\/Speech\/Voices\/Tokens\/TTS_MS_KO-KR_HEAMI_11.0",
-        "voiceID_EN":"HKEY_LOCAL_MACHINE\/SOFTWARE\/Microsoft\/Speech\/Voices\/Tokens\/TTS_MS_EN-US_ZIRA_11.0"
+    "TTS": {
+        "voiceID_EN": "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Speech/Voices/Tokens/TTS_MS_EN-US_ZIRA_11.0",
+        "voiceID_KO": "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Speech/Voices/Tokens/TTS_MS_KO-KR_HEAMI_11.0"
     },
     "WordSpaces": {
         "20191003.txt": {
@@ -54,7 +50,7 @@
             "CreateDay": "20191010",
             "Path": "res/word/노래가사.txt",
             "resultPath": "res/result/노래가사",
-            "wordCount": 4
+            "wordCount": 6
         }
     }
 }

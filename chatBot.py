@@ -7,7 +7,6 @@ with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     configData = json.loads(data)
     token = configData['Bot']['token']
 
-# token = '842239728:AAHkLmG7HFQcswzOWuLeVO9RNoxNzkqGByA'
 userId = '698241176'
 bot = telepot.Bot(token)
 
