@@ -1,17 +1,12 @@
-import requests
-import sys, time, json, os, argparse, random, re
-from bs4 import BeautifulSoup
-from datetime import datetime
-from os import listdir
-from PIL import Image, ImageDraw, ImageFont
-import telepot
-import pyttsx3
 import module
+import telepot
+from datetime import datetime
+import json, time
 
-module.json_load()
-module.args_init()
+module.json_load() # load json data
+module.args_init() # load args
 
-bot = telepot.Bot(module.token)
+bot = telepot.Bot(module.token) # init bot
 
 status = True
 
@@ -23,26 +18,25 @@ if args.show: # show config data
 if args.n: # create new word space
     module.create_wordSpace()
 
-if args.rm:
+if args.rm: # remove word space
     module.remove_wordSpace()
 
 if args.l: # list wordspace
     module.list_wordSpace()
 
-if args.checkout: # change target workspace
+if args.alter: # change target workspace
     module.alter_target()
 
-if args.test:
+if args.test: # exist for testing
     module.test_fuction()
 
-if args.make:
+if args.make: # create word cards with word space data
     module.create_wordCard()
 
-if args.m:
+if args.m: # migrate json data
     module.migrate_config()
 
 def BotHandle(msg):
-    # print(filePath)
     content, chat, id = telepot.glance(msg)
     now = datetime.now()
     date_time = now.strftime("%Y-%m-%d/%H:%M")

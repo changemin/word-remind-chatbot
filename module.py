@@ -53,7 +53,7 @@ def args_init(): # arguments
     parser.add_argument("-rm", help="remove wordSpace",action="store_true")
     parser.add_argument("-make", help="make words to Image",action="store_true")
     parser.add_argument("-test", help="test args", action="store_true")
-    parser.add_argument("-checkout", help="change target file", action="store_true")
+    parser.add_argument("-alter", help="change target file", action="store_true")
 
 def list_config(): # List config Data
     print("-------------------------------------\n")
@@ -138,7 +138,7 @@ def alter_target(): # checkout target
                 isExist = True
                 exit()
     if(isExist == False):
-        print("there is no such a file name : " + checkout)
+        print("[ERROR]there is no such a file name : " + checkout)
     sys.exit()
 
 def test_fuction(): # existing for testing
