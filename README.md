@@ -13,12 +13,12 @@
 ## 파일 구조
 
 * res
-    * background-imgs
     * result
     * word
     * fonts
 * config.json
 * main.py
+* module.py
 * README.md
 
 ## 프로젝트를 시작하게 된 이유
@@ -37,3 +37,12 @@
     python main.py -checkout
     python main.py -rm
     python main.py -m
+
+
+## main.py
+
+main프로그램.
+
+## module.py
+
+모든 함수들은 이곳에 정리된다.
