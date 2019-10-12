@@ -6,7 +6,6 @@ from os import listdir
 from PIL import Image, ImageDraw, ImageFont
 import telepot
 import pyttsx3
-import Models
 
 with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
@@ -24,6 +23,17 @@ with open('config.json', 'r', encoding='UTF-8') as config: # read config file
     except:
         filePath = configData['WordSpaces']['words.txt']['Path']
     dayInterval = configData['DATASET']['interval']
+
+with open('token.json', 'r', encoding='UTF-8') as private_config:
+    private_data = private_config.read()
+    private_configData = json.loads(private_data)
+    token = private_configData['Bot']['token']
+    userId = private_configData['Bot']['userID']['master']
+
+bot = telepot.Bot(token)
+bot.sendMessage(userId, "안녕하세요 저는 와이즈 입니다!")
+
+status = True
 
 parser = argparse.ArgumentParser() # args parser
 parser.add_argument("-show", help="list config file-DATASET", action="store_true")
@@ -45,7 +55,7 @@ if args.show: # show config data
     sys.exit()
 
 if args.n: # create new word space
-    newFileName = input("새로운 WordSpace의 이름을 aa입력하세요>")
+    newFileName = input("새로운 WordSpace의 이름을 입력하세요>")
     newFilePath = "res/word/" + newFileName + ".txt"
     # os.mkdir("res/result/", newFileName)
     try:
@@ -172,34 +182,75 @@ if args.m:
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
     sys.exit()
 
-if __name__ == "__main__":
-    while(True): 
-        with open('config.json', 'r', encoding='UTF-8') as config: # read config file
-            data = config.read()
-            configData = json.loads(data) # load json file
-        now = datetime.now()
-        date_time = now.strftime("%Y-%m-%d/%H:%M")
-        targetFileName = configData['DATASET']['target']
-        word = input("단어를 입력하세요(현재:"+targetFileName+')>')
+# if __name__ == "__main__":
+#     while(True): 
+#         with open('config.json', 'r', encoding='UTF-8') as config: # read config file
+#             data = config.read()
+#             configData = json.loads(data) # load json file
+#         now = datetime.now()
+#         date_time = now.strftime("%Y-%m-%d/%H:%M")
+#         targetFileName = configData['DATASET']['target']
+#         word = input("단어를 입력하세요(현재:"+targetFileName+')>')
 
-        if word == "exit()": # interrupt
-            sys.exit()
+#         if word == "exit()": # interrupt
+#             sys.exit()
 
-        url = "http://endic.naver.com/search.nhn?query=" + word
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, "lxml")
+#         url = "http://endic.naver.com/search.nhn?query=" + word
+#         response = requests.get(url)
+#         soup = BeautifulSoup(response.content, "lxml")
         
-        f = open(filePath, "a+", encoding="UTF-8") # open file append mode
+#         f = open(filePath, "a+", encoding="UTF-8") # open file append mode
 
+#         newWord = date_time + ", " + word + ", "
+        
+#         try:
+#             newWord += soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
+#             configData['WordSpaces'][targetFileName]['wordCount'] += 1
+#             with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+#                 json.dump(configData, config, ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+#             f.write(newWord)
+#             f.close()
+#         except:
+#             newWord += "네이버 사전에 등재되어 있지 않아요 ㅠㅠ\n"
+#         print(newWord[0:-1])
+
+def isMeaning(word2find):
+    url = "http://endic.naver.com/search.nhn?query=" + word2find
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "lxml")
+    try:
+        meaning = soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
+        return meaning
+    except:
+        return '그런 단어는 없습니다 ㅠㅠ'
+
+def BotHandle(msg):
+    # print(filePath)
+    content, chat, id = telepot.glance(msg)
+    now = datetime.now()
+    date_time = now.strftime("%Y-%m-%d/%H:%M")
+    print(content, chat, id)
+    if content == 'text':
+        if msg[content] == '/migrate':
+            print('migrate fuction activated')
+            bot.sendMessage(id, 'migrate fuction activated')
+            # migrate
+            exit()
+        word = msg[content]
+        wordMeaing = isMeaning(word)
         newWord = date_time + ", " + word + ", "
-        
-        try:
-            newWord += soup.find('dl', {'class':'list_e2'}).find('dd').find('span', {'class':'fnt_k05'}).get_text() +"\n"
-            configData['WordSpaces'][targetFileName]['wordCount'] += 1
-            with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-                json.dump(configData, config, ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
-            f.write(newWord)
-            f.close()
-        except:
-            newWord += "네이버 사전에 등재되어 있지 않아요 ㅠㅠ\n"
-        print(newWord[0:-1])
+        newWord += isMeaning(word)
+        configData['WordSpaces'][targetFile]['wordCount'] += 1
+        f = open(filePath, "a+", encoding='UTF-8')
+        f.write(newWord)
+        f.close()
+        print(wordMeaing)
+        print(newWord)
+        bot.sendMessage(id, isMeaning(word))
+    else:
+        bot.sendMessage(id, '아 뭐래')
+
+bot.message_loop(BotHandle)
+
+while(True):
+    time.sleep(10)
