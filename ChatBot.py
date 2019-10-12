@@ -2,7 +2,7 @@ import telepot, time, os, json
 import requests
 from bs4 import BeautifulSoup
 
-with open('config.json', 'r', encoding='UTF-8') as config: # read config file
+with open('token.json', 'r', encoding='UTF-8') as config: # read config file
     data = config.read()
     configData = json.loads(data)
     token = configData['Bot']['token']
