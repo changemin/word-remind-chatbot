@@ -7,6 +7,10 @@ from PIL import Image, ImageDraw, ImageFont
 import telepot
 import pyttsx3
 
+def printAndsendmessage(id, string):
+    print(string)
+    bot.sendMessage(id, string)
+
 def json_load(): # json file load
     with open('config.json', 'r', encoding='UTF-8') as config:
         global data
@@ -42,6 +46,11 @@ def json_load(): # json file load
         token = private_configData['Bot']['token']
         global userId
         userId = private_configData['Bot']['userID']['master']
+
+def chatbot_init():
+    global bot
+    bot = telepot.Bot(token) # init bot
+    printAndsendmessage(userId, "안녕하세요 저는 와이즈 입니다!")
 
 def args_init(): # arguments
     global parser
@@ -183,10 +192,9 @@ def migrate_config():
             wordCount += 1
         tmp = {wordFile:{"CreateDay":createDay[0:8],"Path":wordFilePath,"resultPath":"res/result/"+wordFile[0:-4],"wordCount":wordCount}}
         configData['WordSpaces'].update(tmp)
-        print("Word space update : " + wordFile)
+        printAndsendmessage(userId, "Word space update : " + wordFile)
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
-    sys.exit()
 
 def isMeaning(word2find):
     url = "http://endic.naver.com/search.nhn?query=" + word2find
@@ -197,3 +205,19 @@ def isMeaning(word2find):
         return meaning
     except:
         return '그런 단어는 없습니다 ㅠㅠ\n'
+
+def add_word(word):
+    now = datetime.now()
+    date_time = now.strftime("%Y-%m-%d/%H:%M")
+    wordMeaing = isMeaning(word)
+    newWord = date_time + ", " + word + ", "
+    newWord += isMeaning(word)
+    configData['WordSpaces'][targetFile]['wordCount'] += 1
+    with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+        json.dump(configData, config, ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+    print(configData['WordSpaces'][targetFile]['wordCount'])
+    f = open(filePath, "a+", encoding='UTF-8')
+    f.write(newWord)
+    f.close()
+    printAndsendmessage(userId, wordMeaing)
+    print(newWord)
