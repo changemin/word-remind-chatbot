@@ -76,15 +76,14 @@ def list_config(): # List config Data
 def create_wordSpace(): # Create new Word Space
     newFileName = input("새로운 WordSpace의 이름을 입력하세요>")
     newFilePath = "res/word/" + newFileName + ".txt"
-    # os.mkdir("res/result/", newFileName)
     try:
         try:
             os.mkdir("res/result/"+newFileName)
-            print("'res/result/"+newFileName+"'을 생성하였습니다.")
+            print_and_message(userId, "'res/result/"+newFileName+"'을 생성하였습니다.")
         except:
-            print("'res/result/"+newFileName+"'이 이미 존재합니다.(파일 생성 실패)")
+            print_and_message(userId, "'res/result/"+newFileName+"'이 이미 존재합니다.(파일 생성 실패)")
         newFile = open(newFilePath, "x", encoding="UTF-8")
-        print("[LOG] '" + newFilePath + "' 가 생성되었습니다.")
+        print_and_message(userId,"[LOG] '" + newFilePath + "' 가 생성되었습니다.")
         newFile = open(newFilePath, "w", encoding="UTF-8")
         now = datetime.now()
         createDate = now.strftime("%Y%m%d\n")
@@ -94,7 +93,7 @@ def create_wordSpace(): # Create new Word Space
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
     except:
-        print("[LOG]" + newFilePath + "가 이미 존재 합니다.")
+        print_and_message(userId,"[LOG]" + newFilePath + "가 이미 존재 합니다.")
 
     sys.exit()
 
@@ -104,7 +103,7 @@ def remove_wordSpace(): # remove a wordspace
     permission = input("'"+rmFileName+"'을 정말 삭제 하시겠습니까?(y/n) ")
     if(permission == 'y' or permission == 'Y'):
         for wordFile in os.listdir('res/word'):
-            # print(wordFile)
+            # print_and_message(userId,wordFile)
             if(wordFile == rmFileName):
                 # remove
                 try:
@@ -114,19 +113,19 @@ def remove_wordSpace(): # remove a wordspace
                         json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
                     try: # rmdir
                         os.rmdir("res/result/"+rmFileName[0:-3])
-                        print("'res/result/"+rmFileName[0:-3]+"'를 성공적으로 제거했습니다.")
+                        print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'를 성공적으로 제거했습니다.")
                     except:
-                        print("'res/result/"+rmFileName[0:-3]+"'제거에 실패하였습니다.")
+                        print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'제거에 실패하였습니다.")
                 except:
-                    print("'"+rmFileName+"'이 존재하지 않습니다.")
+                    print_and_message(userId,"'"+rmFileName+"'이 존재하지 않습니다.")
                     sys.exit()
-                print("'"+rmFileName+"'를 성공적으로 제거했습니다.")
+                print_and_message(userId,"'"+rmFileName+"'를 성공적으로 제거했습니다.")
                 sys.exit()
     elif(permission == 'n' or permission == 'N'):
-        print("'" + rmFileName + "'제거를 취소하셨습니다.")
+        print_and_message(userId,"'" + rmFileName + "'제거를 취소하셨습니다.")
         sys.exit()
     else:
-        print("잘못된 입력, " + permission)
+        print_and_message(userId,"잘못된 입력, " + permission)
     sys.exit()
 
 def list_wordSpace(): # list wordspaces
@@ -140,20 +139,19 @@ def alter_target(): # checkout target
     checkout = input("이동할 WordSpace의 이름을 입력하세요>")
     checkout += ".txt"
     for wordFile in os.listdir('res/word'):
-        # print(wordFile)
         if(wordFile == checkout):
             configData['DATASET']['target'] = checkout
             with open('config.json', 'w', encoding='UTF-8') as config: # read config file
                 json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
-                print("now your target : " + checkout)
+                print_and_message(userId,"now your target : " + checkout)
                 isExist = True
                 exit()
     if(isExist == False):
-        print("[ERROR]there is no such a file name : " + checkout)
+        print_and_message(userId,"[ERROR]there is no such a file name : " + checkout)
     sys.exit()
 
 def test_fuction(): # existing for testing
-    print('test')
+    print_and_message(userId,'test')
     sys.exit()
 
 def create_wordCard():
@@ -166,21 +164,16 @@ def create_wordCard():
     wordCount = configData['WordSpaces'][targetFile]['wordCount']
     for word in range(wordCount):
         word = wordSpace.readline()
-        # print(word)
         wordData = word.split(',')
         word = wordData[1]
         meaning = wordData[2]
-        # print(wordData)
         print(word)
         print(meaning)
-        BGrandom = random.randrange(1,4)
-        # wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=(BGColors[BGrandom][0],BGColors[BGrandom][1],BGColors[BGrandom][2]))
         wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255)))
         drawingLayer = ImageDraw.Draw(wordCard)
         drawingLayer.text((30, 30), targetFile, font=wordSpaceFont, fill=(0,0,0))
         drawingLayer.text((30,60), word, font=wordFont, fill = (0,0,0))
         drawingLayer.text((50,140), meaning, font=meaningFont, fill=(0,0,0))
-        # drawingLayer.text((50,50), str(word), font=fontPathKO, fill=(255,0,0))
         wordCard.save(resultPath+'/'+word+'.png')
     sys.exit()
 
@@ -221,5 +214,5 @@ def add_word(word):
     f = open(filePath, "a+", encoding='UTF-8')
     f.write(newWord)
     f.close()
-    print_and_message(userId, wordMeaing)
-    print(newWord)
+    print(wordMeaing)
+    print_and_message(userId,newWord)
