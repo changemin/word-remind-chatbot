@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 import telepot
 import pyttsx3
 
-def printAndsendmessage(id, string):
+def print_and_message(id, string):
     print(string)
     bot.sendMessage(id, string)
 
@@ -46,11 +46,12 @@ def json_load(): # json file load
         token = private_configData['Bot']['token']
         global userId
         userId = private_configData['Bot']['userID']['master']
+    print("[LOG]json file loaded successfully!")
 
 def chatbot_init():
     global bot
     bot = telepot.Bot(token) # init bot
-    printAndsendmessage(userId, "안녕하세요 저는 와이즈 입니다!")
+    print_and_message(userId, "안녕하세요 저는 와이즈 입니다!")
 
 def args_init(): # arguments
     global parser
@@ -63,11 +64,12 @@ def args_init(): # arguments
     parser.add_argument("-make", help="make words to Image",action="store_true")
     parser.add_argument("-test", help="test args", action="store_true")
     parser.add_argument("-alter", help="change target file", action="store_true")
+    print("[LOG]args loaded successfully!")
 
 def list_config(): # List config Data
     print("-------------------------------------\n")
-    print("target : " + targetFile)
-    print("dayInterval : " + str(dayInterval) + "\n")
+    print_and_message(userId, "target : " + targetFile)
+    print_and_message(userId, "dayInterval : " + str(dayInterval) + "\n")
     print("-------------------------------------")
     sys.exit()
 
@@ -129,9 +131,9 @@ def remove_wordSpace(): # remove a wordspace
 
 def list_wordSpace(): # list wordspaces
     wordList = os.listdir('res/word')
+    print_and_message(userId, "현재 wordSpace들의 목록입니다!")
     for fileName in wordList:
-        print(fileName)
-    sys.exit()
+        print_and_message(userId, fileName)
 
 def alter_target(): # checkout target
     isExist = False
@@ -192,7 +194,7 @@ def migrate_config():
             wordCount += 1
         tmp = {wordFile:{"CreateDay":createDay[0:8],"Path":wordFilePath,"resultPath":"res/result/"+wordFile[0:-4],"wordCount":wordCount}}
         configData['WordSpaces'].update(tmp)
-        printAndsendmessage(userId, "Word space update : " + wordFile)
+        print_and_message(userId, "Word space update : " + wordFile)
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
 
@@ -219,5 +221,5 @@ def add_word(word):
     f = open(filePath, "a+", encoding='UTF-8')
     f.write(newWord)
     f.close()
-    printAndsendmessage(userId, wordMeaing)
+    print_and_message(userId, wordMeaing)
     print(newWord)
