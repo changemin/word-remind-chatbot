@@ -43,6 +43,24 @@ def BotHandle(msg):
         if msg[content] == '/migrate':
             module.migrate_config()
             exit()
+        if msg[content] == '/show':
+            module.list_config()
+            exit()
+        if msg[content] == '/n':
+            module.create_wordSpace()
+            exit()
+        if msg[content] == '/rm':
+            module.remove_wordSpace()
+            exit()
+        if msg[content] == '/l':
+            module.list_wordSpace()
+            exit()
+        if msg[content] == '/alter':
+            module.alter_target()
+            exit()
+        if msg[content] == '/make':
+            module.create_wordCard()
+            exit()
         word = msg[content]
         module.add_word(word)
     else:
