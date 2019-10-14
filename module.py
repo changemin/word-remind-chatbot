@@ -74,7 +74,9 @@ def list_config(): # List config Data
     sys.exit()
 
 def create_wordSpace(): # Create new Word Space
-    newFileName = input("새로운 WordSpace의 이름을 입력하세요>")
+    print_and_message(userId, "새로운 WordSpace의 이름을 입력해주세요!")
+    content, chat, id = telepot.glance()
+    newFileName = content
     newFilePath = "res/word/" + newFileName + ".txt"
     try:
         try:
@@ -214,5 +216,15 @@ def add_word(word):
     f = open(filePath, "a+", encoding='UTF-8')
     f.write(newWord)
     f.close()
-    print(wordMeaing)
-    print_and_message(userId,newWord)
+    print_and_message(userId, wordMeaing)
+    print(newWord)
+
+def list_function():
+    print_and_message(userId, "/new - 새로운 Word Space를 만듭니다.")
+    print_and_message(userId, "/remove - Word Space를 삭제합니다.")
+    print_and_message(userId, "/list - 생성된 Word Space들을 보여줍니다.")
+    print_and_message(userId, "/show - 사용자의 config data를 보여줍니다.")
+    print_and_message(userId, "/checkout - 현재 단어를 추가하고 있는 Word Space를 변경합니다.")
+    print_and_message(userId, "/make - Word Space를 기반으로 단어 카드를 제작합니다.")
+    print_and_message(userId, "/new - 새로운 Word Space를 만듭니다.")
+    print_and_message(userId, "/migrate - 오류가 있을 시 실제 데이터에 맞게 config data를 수정합니다.")
