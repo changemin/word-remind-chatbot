@@ -29,12 +29,12 @@ def json_load(): # json file load
         cardHeight = configData['DATASET']['cardHeight']
         global BGColors
         BGColors = [configData['DATASET']['colors']['1'],configData['DATASET']['colors']['2'],configData['DATASET']['colors']['3'],configData['DATASET']['colors']['4']]
-        try:
-            global filePath
-            filePath = configData['WordSpaces'][targetFile]['Path']
-        except:
-            # global filePath
-            filePath = configData['WordSpaces']['default.txt']['Path']
+        # try:
+        global filePath
+        filePath = configData['WordSpaces'][targetFile]['Path']
+        # except:
+        #     # global targetFilePath
+        #     filePath = configData['WordSpaces']['default.txt']['Path']
         global dayInterval
         dayInterval = configData['DATASET']['interval']
     with open('token.json', 'r', encoding='UTF-8') as private_config:

@@ -43,6 +43,8 @@ if args.m: # migrate json data
 def BotHandle(msg):
     content, chat, id = telepot.glance(msg)
     print(content, chat, id)
+    
+    module.json_load()
     # if id == module.userId:
     if content == 'text':
         if msg[content] == '/migrate':
@@ -72,7 +74,6 @@ def BotHandle(msg):
         elif msg[content] == '/help':
             module.list_function()
             exit()
-        
         else:
             word = msg[content]
             module.add_word(word)
