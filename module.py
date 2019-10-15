@@ -34,7 +34,7 @@ def json_load(): # json file load
             filePath = configData['WordSpaces'][targetFile]['Path']
         except:
             # global filePath
-            filePath = configData['WordSpaces']['words.txt']['Path']
+            filePath = configData['WordSpaces']['default.txt']['Path']
         global dayInterval
         dayInterval = configData['DATASET']['interval']
     with open('token.json', 'r', encoding='UTF-8') as private_config:
@@ -68,15 +68,13 @@ def args_init(): # arguments
 
 def list_config(): # List config Data
     print("-------------------------------------\n")
-    print_and_message(userId, "target : " + targetFile)
-    print_and_message(userId, "dayInterval : " + str(dayInterval) + "\n")
+    print_and_message(userId, "지금 당신의 타겟 wordSpace는 : '" + targetFile + "' 입니다.")
+    print(userId, "dayInterval : " + str(dayInterval) + "\n")
     print("-------------------------------------")
     sys.exit()
 
-def create_wordSpace(): # Create new Word Space
-    print_and_message(userId, "새로운 WordSpace의 이름을 입력해주세요!")
-    content, chat, id = telepot.glance()
-    newFileName = content
+def create_wordSpace(wordSpaceName): # Create new Word Space
+    newFileName = wordSpaceName
     newFilePath = "res/word/" + newFileName + ".txt"
     try:
         try:
@@ -99,36 +97,36 @@ def create_wordSpace(): # Create new Word Space
 
     sys.exit()
 
-def remove_wordSpace(): # remove a wordspace
-    rmFileName = input("지울 WordSpace의 이름을 입력하세요>")
+def remove_wordSpace(wordSpaceName): # remove a wordspace
+    rmFileName = wordSpaceName
     rmFileName += ".txt"
-    permission = input("'"+rmFileName+"'을 정말 삭제 하시겠습니까?(y/n) ")
-    if(permission == 'y' or permission == 'Y'):
-        for wordFile in os.listdir('res/word'):
-            # print_and_message(userId,wordFile)
-            if(wordFile == rmFileName):
-                # remove
-                try:
-                    os.remove("res/word/" + rmFileName)
-                    del configData['WordSpaces'][rmFileName]
-                    with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-                        json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
-                    try: # rmdir
-                        os.rmdir("res/result/"+rmFileName[0:-3])
-                        print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'를 성공적으로 제거했습니다.")
-                    except:
-                        print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'제거에 실패하였습니다.")
+    # permission = input("'"+rmFileName+"'을 정말 삭제 하시겠습니까?(y/n) ")
+    # if(permission == 'y' or permission == 'Y'):
+    for wordFile in os.listdir('res/word'):
+        # print_and_message(userId,wordFile)
+        if(wordFile == rmFileName):
+            # remove
+            try:
+                os.remove("res/word/" + rmFileName)
+                del configData['WordSpaces'][rmFileName]
+                with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+                    json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+                try: # rmdir
+                    os.rmdir("res/result/"+rmFileName[0:-3])
+                    print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'를 성공적으로 제거했습니다.")
                 except:
-                    print_and_message(userId,"'"+rmFileName+"'이 존재하지 않습니다.")
-                    sys.exit()
-                print_and_message(userId,"'"+rmFileName+"'를 성공적으로 제거했습니다.")
-                sys.exit()
-    elif(permission == 'n' or permission == 'N'):
-        print_and_message(userId,"'" + rmFileName + "'제거를 취소하셨습니다.")
-        sys.exit()
-    else:
-        print_and_message(userId,"잘못된 입력, " + permission)
-    sys.exit()
+                    print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'제거에 실패하였습니다.")
+            except:
+                print_and_message(userId,"'"+rmFileName+"'이 존재하지 않습니다.")
+                exit()
+            print_and_message(userId,"'"+rmFileName+"'를 성공적으로 제거했습니다.")
+            exit()
+    # elif(permission == 'n' or permission == 'N'):
+    #     print_and_message(userId,"'" + rmFileName + "'제거를 취소하셨습니다.")
+    # #     exit()
+    # else:
+    #     print_and_message(userId,"잘못된 입력, " + permission)
+    exit()
 
 def list_wordSpace(): # list wordspaces
     wordList = os.listdir('res/word')
@@ -136,9 +134,10 @@ def list_wordSpace(): # list wordspaces
     for fileName in wordList:
         print_and_message(userId, fileName)
 
-def alter_target(): # checkout target
+def alter_target(wordSpaceName): # checkout target
     isExist = False
-    checkout = input("이동할 WordSpace의 이름을 입력하세요>")
+    # checkout = input("이동할 WordSpace의 이름을 입력하세요>")
+    checkout = wordSpaceName
     checkout += ".txt"
     for wordFile in os.listdir('res/word'):
         if(wordFile == checkout):
@@ -228,3 +227,9 @@ def list_function():
     print_and_message(userId, "/make - Word Space를 기반으로 단어 카드를 제작합니다.")
     print_and_message(userId, "/new - 새로운 Word Space를 만듭니다.")
     print_and_message(userId, "/migrate - 오류가 있을 시 실제 데이터에 맞게 config data를 수정합니다.")
+
+def BotHandle(msg):
+    content, chat, id = telepot.glance(msg)
+    print("new message")
+    print(content, chat, id)
+    return content
