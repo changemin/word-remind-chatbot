@@ -141,11 +141,11 @@ def alter_target(wordSpaceName): # checkout target
     checkout += ".txt"
     for wordFile in os.listdir('res/word'):
         if(wordFile == checkout):
+            isExist = True
             configData['DATASET']['target'] = checkout
             with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-                json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+                json.dump(configData, config, ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
                 print_and_message(userId,"now your target : " + checkout)
-                isExist = True
                 exit()
     if(isExist == False):
         print_and_message(userId,"[ERROR]there is no such a file name : " + checkout)

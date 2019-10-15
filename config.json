@@ -32,48 +32,30 @@
         "fontPathEN": "res/fonts/a시나리오.ttf",
         "fontPathKO": "res/fonts/a시나리오.ttf",
         "interval": 1,
-        "target": "노래가사.txt"
+        "target": "big.txt"
     },
     "TTS": {
         "voiceID_EN": "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Speech/Voices/Tokens/TTS_MS_EN-US_ZIRA_11.0",
         "voiceID_KO": "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Speech/Voices/Tokens/TTS_MS_KO-KR_HEAMI_11.0"
     },
     "WordSpaces": {
-        "20191003.txt": {
-            "CreateDay": "20191003",
-            "Path": "res/word/20191003.txt",
-            "resultPath": "res/result/20191003",
-            "wordCount": 23
+        "20191015.txt": {
+            "CreateDay": "20191015",
+            "Path": "res/word/20191015.txt",
+            "resultPath": "res/result/20191015",
+            "wordCount": 14
         },
-        "anaconda.txt": {
-            "CreateDay": "20191004",
-            "Path": "res/word/anaconda.txt",
-            "resultPath": "res/result/anaconda",
-            "wordCount": 20
-        },
-        "bot.txt": {
-            "CreateDay": "20191012",
-            "Path": "res/word/bot.txt",
-            "resultPath": "res/result/bot",
-            "wordCount": 3
+        "big.txt": {
+            "CreateDay": "20191015",
+            "Path": "res/word/big.txt",
+            "resultPath": "res/result/big",
+            "wordCount": 0
         },
         "default.txt": {
             "CreateDay": "20191013",
             "Path": "res/word/default.txt",
             "resultPath": "res/result/default",
-            "wordCount": 39
-        },
-        "this.txt": {
-            "CreateDay": "20191015",
-            "Path": "res/word/this.txt",
-            "resultPath": "res/result/this",
-            "wordCount": 3
-        },
-        "노래가사.txt": {
-            "CreateDay": "20191010",
-            "Path": "res/word/노래가사.txt",
-            "resultPath": "res/result/노래가사",
-            "wordCount": 6
+            "wordCount": 1
         }
     }
 }
