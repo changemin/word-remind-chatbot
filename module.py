@@ -176,7 +176,7 @@ def create_wordCard():
         drawingLayer.text((30,60), word, font=wordFont, fill = (0,0,0))
         drawingLayer.text((50,140), meaning, font=meaningFont, fill=(0,0,0))
         wordCard.save(resultPath+'/'+word+'.png')
-    sys.exit()
+        bot.sendPhoto(userId, photo=open(resultPath+'/'+word+'.png', 'rb'))
 
 def migrate_config():
     for wordFile in os.listdir('res/word'):

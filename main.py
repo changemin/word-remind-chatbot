@@ -17,16 +17,19 @@ if args.show: # show config data
     module.list_config()
 
 if args.n: # create new word space
-    module.create_wordSpace()
+    wordSpaceName = input("새로운 wordspace의 이름을 입력하세요>")
+    module.create_wordSpace(wordSpaceName)
 
 if args.rm: # remove word space
-    module.remove_wordSpace()
+    wordSpaceName = input("삭제할 wordspace의 이름을 입력하세요>")
+    module.remove_wordSpace(wordSpaceName)
 
 if args.l: # list wordspace
     module.list_wordSpace()
 
 if args.alter: # change target workspace
-    module.alter_target()
+    wordSpaceName = input("checkout할 wordspace의 이름을 입력하세요>")
+    module.alter_target(wordSpaceName)
 
 if args.test: # exist for testing
     module.test_fuction()
@@ -45,40 +48,41 @@ def BotHandle(msg):
         if msg[content] == '/migrate':
             module.migrate_config()
             exit()
-        if msg[content] == '/show':
+        elif msg[content] == '/show':
             module.list_config()
             exit()
-        if msg[content][0:4] == '/new':
+        elif msg[content][0:4] == '/new':
             wordSpaceName = msg[content][5:]
             module.create_wordSpace(wordSpaceName)
             exit()
-        if msg[content][0:7] == '/remove':
+        elif msg[content][0:7] == '/remove':
             wordSpaceName = msg[content][8:]
             module.remove_wordSpace(wordSpaceName)
             exit()
-        if msg[content] == '/list':
+        elif msg[content] == '/list':
             module.list_wordSpace()
             exit()
-        if msg[content][0:9] == '/checkout':
+        elif msg[content][0:9] == '/checkout':
             wordSpaceName = msg[content][10:]
             module.alter_target(wordSpaceName)
             exit()
-        if msg[content] == '/make':
+        elif msg[content] == '/make':
             module.create_wordCard()
-            exit()
-        if msg[content] == '/help':
+            # exit()
+        elif msg[content] == '/help':
             module.list_function()
             exit()
         
-        word = msg[content]
-        module.add_word(word)
+        else:
+            word = msg[content]
+            module.add_word(word)
         # print(msg[content])
         # print(msg[content][0:7])
         # print(msg[content][8:])
     else:
         module.bot.sendMessage(id, '아 뭐래')
 
-MessageLoop(module.bot, BotHandle).run_as_thread()
+module.bot.message_loop(BotHandle, run_forever=True)
 
 while(True):
     time.sleep(10)
