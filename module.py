@@ -37,6 +37,7 @@ def json_load(): # json file load
         #     filePath = configData['WordSpaces']['default.txt']['Path']
         global dayInterval
         dayInterval = configData['DATASET']['interval']
+        
     with open('token.json', 'r', encoding='UTF-8') as private_config:
         global private_data
         private_data = private_config.read()
@@ -156,25 +157,28 @@ def test_fuction(): # existing for testing
     sys.exit()
 
 def create_wordCard():
+    
     wordSpace = open(configData['WordSpaces'][targetFile]['Path'],'r',encoding='UTF-8')
     resultPath = configData['WordSpaces'][targetFile]['resultPath']
-    wordFont = ImageFont.truetype(fontPathKO, 70)
+    wordFont = ImageFont.truetype(fontPathKO, 80)
     meaningFont = ImageFont.truetype(fontPathKO, 20)
-    wordSpaceFont = ImageFont.truetype(fontPathKO, 15)
+    wordSpaceFont = ImageFont.truetype(fontPathKO, 18)
     print(wordSpace.readline())
     wordCount = configData['WordSpaces'][targetFile]['wordCount']
     for word in range(wordCount):
+        background_color = (random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))
+        text_color = (0,0,0)
         word = wordSpace.readline()
         wordData = word.split(',')
         word = wordData[1]
         meaning = wordData[2]
         print(word)
         print(meaning)
-        wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255)))
+        wordCard = Image.new(mode = "RGB", size = (cardWidth, cardHeight), color=background_color)
         drawingLayer = ImageDraw.Draw(wordCard)
-        drawingLayer.text((30, 30), targetFile, font=wordSpaceFont, fill=(0,0,0))
-        drawingLayer.text((30,60), word, font=wordFont, fill = (0,0,0))
-        drawingLayer.text((50,140), meaning, font=meaningFont, fill=(0,0,0))
+        drawingLayer.text((30, 30), targetFile, font=wordSpaceFont, fill=text_color)
+        drawingLayer.text((20,55), word, font=wordFont, fill = text_color)
+        drawingLayer.text((30,140), meaning, font=meaningFont, fill=text_color)
         wordCard.save(resultPath+'/'+word+'.png')
         bot.sendPhoto(userId, photo=open(resultPath+'/'+word+'.png', 'rb'))
 
@@ -191,7 +195,6 @@ def migrate_config():
         print_and_message(userId, "Word space update : " + wordFile)
         with open('config.json', 'w', encoding='UTF-8') as config: # read config file
             json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
-
 def isMeaning(word2find):
     url = "http://endic.naver.com/search.nhn?query=" + word2find
     response = requests.get(url)
