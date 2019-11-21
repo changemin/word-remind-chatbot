@@ -1,6 +1,6 @@
 {
     "Bot": {
-        "name": "YOTR BOT NAME HERE",
+        "name": "와이즈",
         "token": "YOUR BOT TOKEN HERE",
         "userID": {}
     },
@@ -27,12 +27,17 @@
                 138,
                 198,
                 209
+            ],
+            "text": [
+                255,
+                255,
+                255
             ]
         },
         "fontPathEN": "res/fonts/a시나리오.ttf",
-        "fontPathKO": "res/fonts/a시나리오.ttf",
+        "fontPathKO": "res/fonts/Typo_DecoSolidSlash.ttf",
         "interval": 1,
-        "target": "big.txt"
+        "target": "default.txt"
     },
     "TTS": {
         "voiceID_EN": "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Speech/Voices/Tokens/TTS_MS_EN-US_ZIRA_11.0",
@@ -43,18 +48,30 @@
             "CreateDay": "20191015",
             "Path": "res/word/20191015.txt",
             "resultPath": "res/result/20191015",
-            "wordCount": 14
+            "wordCount": 15
         },
         "big.txt": {
             "CreateDay": "20191015",
             "Path": "res/word/big.txt",
             "resultPath": "res/result/big",
-            "wordCount": 0
+            "wordCount": 6
         },
         "default.txt": {
             "CreateDay": "20191013",
             "Path": "res/word/default.txt",
             "resultPath": "res/result/default",
+            "wordCount": 7
+        },
+        "newFont.txt": {
+            "CreateDay": "20191114",
+            "Path": "res/word/newFont.txt",
+            "resultPath": "res/result/newFont",
+            "wordCount": 2
+        },
+        "test.txt": {
+            "CreateDay": "20191015",
+            "Path": "res/word/test.txt",
+            "resultPath": "res/result/test",
             "wordCount": 1
         }
     }

@@ -7,11 +7,16 @@ from PIL import Image, ImageDraw, ImageFont
 import telepot
 import pyttsx3
 
-def print_and_message(id, string):
-    print(string)
-    bot.sendMessage(id, string)
+ConsoleMode = False
 
-def json_load(): # json file load
+def print_and_message(id, string):
+    if not ConsoleMode: 
+        bot.sendMessage(id, string)
+        print("[Message]"+string)
+    else:
+        print("[OnlyPrint]"+string)
+
+def LoadJson(): # json file load
     with open('config.json', 'r', encoding='UTF-8') as config:
         global data
         data = config.read()
@@ -31,7 +36,10 @@ def json_load(): # json file load
         BGColors = [configData['DATASET']['colors']['1'],configData['DATASET']['colors']['2'],configData['DATASET']['colors']['3'],configData['DATASET']['colors']['4']]
         # try:
         global filePath
-        filePath = configData['WordSpaces'][targetFile]['Path']
+        try:
+            filePath = configData['WordSpaces'][targetFile]['Path']
+        except:
+            filePath = 'default.txt'
         # except:
         #     # global targetFilePath
         #     filePath = configData['WordSpaces']['default.txt']['Path']
@@ -52,7 +60,7 @@ def json_load(): # json file load
 def chatbot_init():
     global bot
     bot = telepot.Bot(token) # init bot
-    print_and_message(userId, "안녕하세요 저는 와이즈 입니다!")
+    print_and_message(userId, "안녕하세요 당신의 단어 챗봇『"+ configData['Bot']['name']+"』입니다!")
 
 def args_init(): # arguments
     global parser
@@ -82,7 +90,7 @@ def create_wordSpace(wordSpaceName): # Create new Word Space
             os.mkdir("res/result/"+newFileName)
             print_and_message(userId, "'res/result/"+newFileName+"'을 생성하였습니다.")
         except:
-            print_and_message(userId, "'res/result/"+newFileName+"'이 이미 존재합니다.(파일 생성 실패)")
+            print_and_message(userId, "'res/result/"+newFileName+"'이 이미 존재합니다.(경로 생성 실패)")
         newFile = open(newFilePath, "x", encoding="UTF-8")
         print_and_message(userId,"[LOG] '" + newFilePath + "' 가 생성되었습니다.")
         newFile = open(newFilePath, "w", encoding="UTF-8")
@@ -91,8 +99,7 @@ def create_wordSpace(wordSpaceName): # Create new Word Space
         newFile.write(createDate)
         tmp = {newFileName+".txt":{"CreateDay":createDate[0:8],"Path":newFilePath,"resultPath":"res/result/"+newFileName, "wordCount":0}}
         configData['WordSpaces'].update(tmp)
-        with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-            json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+        UpdateJson()
     except:
         print_and_message(userId,"[LOG]" + newFilePath + "가 이미 존재 합니다.")
 
@@ -110,13 +117,16 @@ def remove_wordSpace(wordSpaceName): # remove a wordspace
             try:
                 os.remove("res/word/" + rmFileName)
                 del configData['WordSpaces'][rmFileName]
-                with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-                    json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+                UpdateJson()
                 try: # rmdir
-                    os.rmdir("res/result/"+rmFileName[0:-3])
-                    print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'를 성공적으로 제거했습니다.")
+                    os.rmdir("res/result/"+rmFileName[0:-4])
+                    if configData['DATASET']['target'] == rmFileName:
+                        configData['DATASET']['target'] = 'default.txt'
+                        UpdateJson()
+                        LoadJson()
+                    print_and_message(userId,"'res/result/"+rmFileName[0:-4]+"'를 성공적으로 제거했습니다.")
                 except:
-                    print_and_message(userId,"'res/result/"+rmFileName[0:-3]+"'제거에 실패하였습니다.")
+                    print_and_message(userId,"'res/result/"+rmFileName[0:-4]+"'제거에 실패하였습니다.")
             except:
                 print_and_message(userId,"'"+rmFileName+"'이 존재하지 않습니다.")
                 exit()
@@ -135,6 +145,11 @@ def list_wordSpace(): # list wordspaces
     for fileName in wordList:
         print_and_message(userId, fileName)
 
+def list_words():
+    f = open(targetFile, 'r')
+    f.readline()
+    print_and_message(userId, f.readline())
+
 def alter_target(wordSpaceName): # checkout target
     isExist = False
     # checkout = input("이동할 WordSpace의 이름을 입력하세요>")
@@ -144,10 +159,9 @@ def alter_target(wordSpaceName): # checkout target
         if(wordFile == checkout):
             isExist = True
             configData['DATASET']['target'] = checkout
-            with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-                json.dump(configData, config, ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
-                print_and_message(userId,"now your target : " + checkout)
-                exit()
+            UpdateJson()
+            print_and_message(userId,"now your target : " + checkout)
+            exit()
     if(isExist == False):
         print_and_message(userId,"[ERROR]there is no such a file name : " + checkout)
     sys.exit()
@@ -193,8 +207,7 @@ def migrate_config():
         tmp = {wordFile:{"CreateDay":createDay[0:8],"Path":wordFilePath,"resultPath":"res/result/"+wordFile[0:-4],"wordCount":wordCount}}
         configData['WordSpaces'].update(tmp)
         print_and_message(userId, "Word space update : " + wordFile)
-        with open('config.json', 'w', encoding='UTF-8') as config: # read config file
-            json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name
+        UpdateJson()
 def isMeaning(word2find):
     url = "http://endic.naver.com/search.nhn?query=" + word2find
     response = requests.get(url)
@@ -220,7 +233,7 @@ def add_word(word):
     f.close()
     print_and_message(userId, wordMeaing)
     print(newWord)
-
+    
 def list_function():
     print_and_message(userId, "/new - 새로운 Word Space를 만듭니다.")
     print_and_message(userId, "/remove - Word Space를 삭제합니다.")
@@ -236,3 +249,7 @@ def BotHandle(msg):
     print("new message")
     print(content, chat, id)
     return content
+
+def UpdateJson():
+    with open('config.json', 'w', encoding='UTF-8') as config: # read config file
+        json.dump(configData, config,ensure_ascii=False, indent=4, sort_keys=True) # save Korean name

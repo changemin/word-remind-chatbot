@@ -4,7 +4,7 @@ from datetime import datetime
 import json, time
 from telepot.loop import MessageLoop
 
-module.json_load() # load json data
+module.LoadJson() # load json data
 module.args_init() # load args
 module.chatbot_init()
 # bot = telepot.Bot(module.token) # init bot
@@ -44,7 +44,7 @@ def BotHandle(msg):
     content, chat, id = telepot.glance(msg)
     print(content, chat, id)
     
-    module.json_load()
+    module.LoadJson()
     # if id == module.userId:
     if content == 'text':
         if msg[content] == '/migrate':
@@ -74,12 +74,11 @@ def BotHandle(msg):
         elif msg[content] == '/help':
             module.list_function()
             exit()
+        elif msg[content] == 'word':
+            module.list_words()
         else:
             word = msg[content]
             module.add_word(word)
-        # print(msg[content])
-        # print(msg[content][0:7])
-        # print(msg[content][8:])
     else:
         module.bot.sendMessage(id, '아 뭐래')
 
